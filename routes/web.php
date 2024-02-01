@@ -15,10 +15,10 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\DailyInfoController::class, 'index']);
+Route::get('/', [\App\Http\Controllers\DailyInfoController::class, 'index'])->name('daily.index');
 Route::post('/daily-info/store', [\App\Http\Controllers\DailyInfoController::class, 'store'])->name('dailyInfo.store');
 
-Route::get('/att', [\App\Http\Controllers\AttController::class, 'index']);
+Route::get('/att', [\App\Http\Controllers\AttController::class, 'index'])->name('att.index');
 Route::post('/att/store', [\App\Http\Controllers\AttController::class, 'store'])->name('att.store');
 
 Route::group(
