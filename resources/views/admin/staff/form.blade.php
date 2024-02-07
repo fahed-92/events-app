@@ -33,8 +33,11 @@
     </div>
     <div class="mb-3">
         <label class="form-label">Corner</label>
-        <input name="corner_id" class="form-control @error('corner_id') is-invalid  @enderror"
-            value="{{ isset($row) ? $row->date_of_joining : old('corner_id') }}">
+        <select class="form-control" id="corner" name="corner">
+            @foreach($corners as $corner)
+            <option value="{{ isset($row) ? $row->corner_id : old('corner') }}">{{ $corner->name }}</option>
+            @endforeach
+        </select>
         @error('corner_id')
         <small class=" text text-danger" role="alert">
             <strong>{{ $message }}</strong>

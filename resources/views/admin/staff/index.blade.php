@@ -45,11 +45,13 @@
                                 <th>Full Name</th>
                                 <th>Corner</th>
                                 <th>Salary Per Day</th>
-                                <th>Work Days</th>
-                                <th>Absent Days</th>
+{{--                                <th>Work Days</th>--}}
+{{--                                <th>Absent Days</th>--}}
+                                <th>Salary Now</th>
                                 <th>Salary</th>
                                 <th>Date of join</th>
-                                <th>Date of End</th>
+                                <th>Actions</th>
+{{--                                <th>Date of End</th>--}}
                             </tr>
                         </thead>
                         <tbody>
@@ -102,22 +104,75 @@
                 var salaryPerDay = row.salary / 30; // Salary Per Day
                 var workDays = String(date1 - date2); // Working Days
                 var Salary = row.present_count * salaryPerDay ; // Main Salary
+                var liveSalary = row.present_count * salaryPerDay ; // Main Salary
+                var id = row.id  ; // Main Salary
                 // console.log(getStaffStatus());
                 var rowHtml = '<tr>' +
                     '<td>' + (index + 1) + '</td>' +
                     '<td>' + row.full_name + '</td>' +
-                    '<td>' + row.corner_id + '</td>' +
+                    '<td id="cornerCell">' + row.corner_id + '</td>' +
                     '<td>' + salaryPerDay.toFixed(2) + '</td>' +
-                    '<td>' + row.present_count + '</td>' +
-                    '<td>' + row.absent_count + '</td>' +
-                    '<td>' + Salary.toFixed(2) + '</td>' +
+                    // '<td>' + row.present_count + '</td>' +
+                    // '<td>' + row.absent_count + '</td>' +
+                    '<td>' + liveSalary + '</td>' +
+                    '<td>' + row.salary + '</td>' +
                     '<td>' + row.date_of_join + '</td>' +
-                    '<td>' + row.date_of_end + '</td>' +
+                    '<td>'+
+                    '<button class="btn btn-primary edit-btn" data-id="' + row.id + '">Edit</button>' +
+                    '<button class="btn btn-danger delete-btn" data-id="' + row.id + '">Delete</button>' +
+
+                    '</td>' +
                     '</tr>';
 
                 tableBody.append(rowHtml);
             });
+            $(document).on('click', '.edit-btn', function() {
+                var id = $(this).data('id');
+                // Perform edit action, e.g., redirect to edit page with id
+                window.location.href = "staff/" + id + "/edit" ;
+            });
+
+            $(document).on('click', '.delete-btn', function() {
+                var id = $(this).data('id');
+                // Perform delete action, e.g., make AJAX request to delete route
+                $.ajax({
+                    url: "admin/staff/delete/" +  id  ,
+                    type: 'DELETE',
+                    success: function(response) {
+                        // Handle success response
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
         }
+    </script>
+    <script>
+        // edit-table.js
+
+        $(document).ready(function() {
+            $('#cornerCell').click(function() {
+                var originalContent = $(this).text();
+                $(this).addClass('cellEditing').html('<input type="text" value="' + originalContent + '" />');
+                $(this).children().first().focus();
+
+                $(this).children().first().keypress(function(e) {
+                    if (e.which == 13) {
+                        var newContent = $(this).val();
+                        $(this).parent().text(newContent);
+                        $(this).parent().removeClass('cellEditing');
+                    }
+                });
+
+                $(this).children().first().blur(function() {
+                    $(this).parent().text(originalContent);
+                    $(this).parent().removeClass('cellEditing');
+                });
+            });
+        });
+
     </script>
 
     <!-- Required datatable js -->

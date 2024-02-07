@@ -21,7 +21,7 @@ class AttController extends Controller
     {
         if (Auth::user()) {
             $corner = Corner::where('name', Auth()->user()->name)->with('staff')->first();
-            $atts = $this->attByStaff();
+            $atts = $this->attByStaff($corner->id);
             return view('attendance', compact('corner', 'atts'));
         }
         return view('auth.login');
@@ -133,10 +133,11 @@ class AttController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function attByStaff()
+    public function attByStaff($corner_id)
     {
         return DB::table('atts')
             ->leftjoin('staff', 'atts.staff_id', '=', 'staff.id')
+            ->where('staff.corner_id' , '=' , $corner_id)
             ->select([
                 'staff.full_name as staff_id', 'atts.check_in', 'atts.check_out', 'atts.date', 'atts.created_at'
             ])->orderBy('created_at', 'desc')->paginate(7);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\ImportStaff;
 use App\Models\Att;
+use App\Models\Corner;
 use App\Models\Staff;
 use App\Http\Requests\StoreStaffRequest;
 use App\Http\Requests\UpdateStaffRequest;
@@ -47,15 +48,7 @@ class StaffController extends Controller
      */
     public function store(StorestaffRequest $request)
     {
-//        $module_name_plural = $this->getClassNameFromModel();
-//        $this->validate($request, [
-//            'title_en'=> 'required',
-//            'title_ar'=> 'required',
-//            'description_en'=> 'required',
-//            'description_ar'=> 'required',
-//        ]);
 
-//        $data = $request->all();
 
         $status = Staff::create([
             'full_name' => $request->full_name,
@@ -90,7 +83,10 @@ class StaffController extends Controller
      */
     public function edit(Staff $staff)
     {
-        return view('admin.staff.edit');
+        $row = $staff->findOrFail($staff->id);
+        $corner = Corner::where('id' , $row->corner_id)->first();
+        $corners=Corner::all();
+        return view('admin.staff.edit' , compact('row' , 'corner','corners'));
     }
 
     /**

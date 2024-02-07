@@ -4,8 +4,9 @@ namespace App\Imports;
 
 use App\Models\Staff;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class ImportStaff implements ToModel
+class ImportStaff implements ToModel,WithHeadingRow
 {
     /**
     * @param array $row
@@ -15,14 +16,14 @@ class ImportStaff implements ToModel
     public function model(array $row)
     {
         return new Staff([
-            'full_name' => $row[1],
-            'position' => $row[0],
-            'date_of_join' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[2]),
-            'date_of_end' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row[3]),
-            'account_name' => $row[11],
-            'bank_name' => $row[12],
-            'iban_number' => $row[13],
-            'note' => $row[15],
+            'position' => $row['position'],
+            'full_name' => $row['name'],
+            'date_of_join' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['start_date']),
+            'date_of_end' => \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject($row['end_date']),
+            'account_name' => $row['account_name'],
+            'bank_name' => $row['bank_name'],
+            'iban_number' => $row['iban_number'],
+            'note' => $row['not'],
             // Add more columns as needed
         ]);
     }
