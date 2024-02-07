@@ -29,9 +29,9 @@
                 <div class="card-body">
                     <h4 class="card-title">Corner</h4>
                     <p class="card-title-desc">Edit Corner</p>
-                    <form class="form row" method="POST" enctype="multipart/form-data" action="{{ route('admin.corners.update', $row->id) }}">
+                    <form class="form row" method="POST" enctype="multipart/form-data" action="{{ route('admin.staff.update', $row->id) }}">
                         @method('PUT')
-                        @include('admin.corners.form')
+                        @include('admin.staff.form')
                         <div class="col-md-12">
                             <div class="form-group mt-2">
                                 <button class="btn btn-primary waves-effect btn-label waves-light" style="background-color: #175f3f;"><i class="bx bx-save label-icon"></i>

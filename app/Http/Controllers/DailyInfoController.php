@@ -6,6 +6,7 @@ use App\Models\Corner;
 use App\Models\DailyInfo;
 use App\Http\Requests\StoreDailyInfoRequest;
 use App\Http\Requests\UpdateDailyInfoRequest;
+use App\Models\MascotDaily;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -19,12 +20,24 @@ class DailyInfoController extends Controller
      */
     public function index()
     {
-        if (Auth::user()) {
-            $corner = Corner::where('name', Auth()->user()->name)->with('dailyInfo')->first();
-            $dailyInfos = DailyInfo::where('corner_id', $corner->id)->orderBy('created_at', 'desc')->paginate(7);
-            return view('dailyForm', compact('corner', 'dailyInfos'));
+//        return Auth::user();
+        if(Auth::user()){
+
+            if (Auth()->user()->name != 'Mascot Team') {
+                $corner = Corner::where('corners.name', Auth()->user()->name)->first();
+                $dailyInfos = DailyInfo::where('corner_id', $corner->id)->orderBy('created_at', 'desc')->paginate(7);
+                return view('dailyForm', compact('corner', 'dailyInfos'));
+            }else {
+                $corner = Corner::where('corners.name', Auth()->user()->name)->first();
+                $dailyInfos = MascotDaily::where('corner_id', $corner->id)->orderBy('created_at', 'desc')->paginate(7);
+                if (!$dailyInfos){
+                    return 0;
+                }
+                return view('mascotDailyForm', compact('corner', 'dailyInfos'));
+            }
+        } else {
+            return view('auth.login');
         }
-        return view('auth.login');
     }
 
     /**

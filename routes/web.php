@@ -18,6 +18,9 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 Route::get('/', [\App\Http\Controllers\DailyInfoController::class, 'index'])->name('daily.index');
 Route::post('/daily-info/store', [\App\Http\Controllers\DailyInfoController::class, 'store'])->name('dailyInfo.store');
 
+Route::get('/mascot', [\App\Http\Controllers\MascotDailyController::class, 'index'])->name('mascot.daily.index');
+Route::post('mascot/daily-info/store', [\App\Http\Controllers\MascotDailyController::class, 'store'])->name('mascot.dailyInfo.store');
+
 Route::get('/att', [\App\Http\Controllers\AttController::class, 'index'])->name('att.index');
 Route::post('/att/store', [\App\Http\Controllers\AttController::class, 'store'])->name('att.store');
 
@@ -29,7 +32,7 @@ Route::group(
     // Dashboard
     Route::prefix('admin')->name('admin.')->group(function () {
         // Authenticate
-        Auth::routes();
+//        Auth::routes();
         // Dashboard
         Route::middleware(['auth'])->group(function () {
             Route::get('/import-excel', [\App\Http\Controllers\StaffController::class, 'import'])->name('import.excel');
@@ -52,14 +55,12 @@ Route::group(
             Route::get('/dropdown', [\App\Http\Controllers\ReportsController::class ,'index']);
             Route::get('/dropdown/values', [\App\Http\Controllers\ReportsController::class ,'getDropdownValues']);
             Route::post('/dropdown/search', [\App\Http\Controllers\ReportsController::class ,'searchDropdown']);
-
-
         });
 
     });
 });
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
