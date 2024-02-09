@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Att;
+use App\Models\Corner;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 
@@ -20,10 +21,11 @@ class SalaryController extends Controller
     }
     public function get()
     {
-        $data = Staff::get();
+         $data = Staff::get();
         foreach ($data as $person) {
             $person->setAttribute('absent_count', $this->absent_count($person->id));
             $person->setAttribute('present_count', $this->present_count($person->id));
+            $person->setAttribute('corner_id', $this->corner($person->corner_id))->name;
         }
         return response()->json($data);
     }
@@ -39,6 +41,10 @@ class SalaryController extends Controller
     {
         $staff = Att::where('staff_id' , $id)->where('status' ,'!=', 'absent' )->get();
         return $staff->count();
+    }
+    public function corner($corner_id){
+        $corner = Corner::find($corner_id);
+        return $corner;
     }
 
 }

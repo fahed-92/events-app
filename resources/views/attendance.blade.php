@@ -85,7 +85,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="staff">Staff</label>
-                                <select class="form-control" id="staff" name="staff">
+                                <select class="form-control" id="staff" name="staff[]" multiple>
                                     @foreach($corner->staff as $staff)
                                         <option value="{{ $staff->id }}">{{ $staff->full_name }}</option>
                                     @endforeach
@@ -167,14 +167,46 @@
     </div>
 </div>
 <script>
+    {{--$(document).ready(function () {--}}
+    {{--    $("#submitBtn").click(function () {--}}
+    {{--        $.ajax({--}}
+    {{--            type: "POST",--}}
+    {{--            url: "{{ route('att.store') }}", // Use Laravel named route--}}
+    {{--            data: $("#myForm").serialize(),--}}
+    {{--            success: function (response) {--}}
+    {{--                // Insert data into the table dynamically--}}
+    {{--                $("#dataTable tbody").prepend(response);--}}
+    {{--                $("#myForm")[0].reset();--}}
+    {{--                // Hide validation errors--}}
+    {{--                $("#validationErrors").hide().empty();--}}
+    {{--            },--}}
+    {{--            error: function (response) {--}}
+    {{--                // Display validation errors--}}
+    {{--                var errors = response.responseJSON.errors;--}}
+    {{--                var errorHtml = '<ul>';--}}
+    {{--                $.each(errors, function (key, value) {--}}
+    {{--                    errorHtml += '<li>' + value + '</li>';--}}
+    {{--                });--}}
+    {{--                errorHtml += '</ul>';--}}
+    {{--                $("#validationErrors").html(errorHtml).show();--}}
+    {{--            }--}}
+    {{--        });--}}
+    {{--    });--}}
+    {{--});--}}
+
     $(document).ready(function () {
         $("#submitBtn").click(function () {
+            var formData = new FormData($('#myForm')[0]); // Create a FormData object to handle file uploads and multiple selects
+
             $.ajax({
                 type: "POST",
                 url: "{{ route('att.store') }}", // Use Laravel named route
-                data: $("#myForm").serialize(),
+                data: formData,
+                contentType: false, // Prevent jQuery from setting the Content-Type
+                processData: false, // Prevent jQuery from processing the data
                 success: function (response) {
                     // Insert data into the table dynamically
+                    // console.log(response)
                     $("#dataTable tbody").prepend(response);
                     $("#myForm")[0].reset();
                     // Hide validation errors

@@ -18,33 +18,43 @@
     </button>
     <div class="collapse navbar-collapse align-right" id="navbarText">
         <ul class="navbar-nav mr-auto">
+            @if (Route::has('login'))
+                @auth
+                    {{--                    @if(\Illuminate\Support\Facades\Auth()->is_admin === 1)--}}
+                    {{--                        <li>--}}
+                    {{--                            <a href="{{ url('/home') }}" class="nav-link">admin</a>--}}
+                    {{--                        </li>--}}
+                    {{--                    @endif--}}
+                    <li class="nav-item active">
+                        {{--                        <a href="{{ url('/home') }}" class="nav-link">Home</a>--}}
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    </li>
+                @else
+                    <li class="nav-item active">
+
+                        <a href="{{ route('login') }}" class="nav-link">Log in</a>
+
+                    @if (Route::has('register'))
+                        <li class="nav-item active">
+
+                            <a href="{{ route('register') }}" class="nav-link">Register</a>
+                        </li>
+
+                    @endif
+                @endauth
+            @endif
+
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('daily.index') }}">Daily Informations<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ route('att.index') }}">Attendance <span class="sr-only">(current)</span></a>
-            </li>
-            <li>
-                @if (Route::has('login'))
-                    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                        @auth
-                            <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                                <button type="submit">Logout</button>
-                            </form>
-                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-
-                        @else
-                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                            @endif
-                        @endauth
-                    </div>
-                @endif
-
             </li>
 
         </ul>

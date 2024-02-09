@@ -35,7 +35,8 @@
                         <div class="col-md-12">
                             <div class="form-group mt-2">
                                 <button class="btn btn-primary waves-effect btn-label waves-light" style="background-color: #175f3f;"><i class="bx bx-save label-icon"></i>
-                                    Save</button>
+                                    Save
+                                </button>
                             </div>
                         </div>
                     </form>

@@ -100,12 +100,12 @@
                 var salaryPerDay = row.salary / 30; // Salary Per Day
                 var workDays = String(date1 - date2); // Working Days
                 var Salary = row.present_count * salaryPerDay ; // Main Salary
-                // console.log(getStaffStatus());
+                console.log(row[0].corner_id);
                 var rowHtml =
                     '<tr>' +
                         '<td>' + (index + 1) + '</td>' +
                         '<td>' + row.full_name + '</td>' +
-                        '<td>' + row.corner_id + '</td>' +
+                        '<td>' + row.corner_id.name + '</td>' +
                         '<td>' + salaryPerDay.toFixed(2) + '</td>' +
                         '<td>' + row.present_count + '</td>' +
                         '<td>' + row.absent_count + '</td>' +
